@@ -1,3 +1,6 @@
+// CSS
+import 'normalize.css';
+
 function App() {
 	return (
 		<div>

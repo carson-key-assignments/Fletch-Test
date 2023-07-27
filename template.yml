@@ -1,0 +1,129 @@
+AWSTemplateFormatVersion: 2010-09-09
+
+Parameters:
+  DomainName:
+    Type: String
+    Default: fletch-test.carsonkey.dev
+
+Resources:
+
+  ##########################
+  # Bucket Stuff
+  ##########################
+
+  # Create an S3 Bucket that serves a static website (i.e. React app)
+  FletchTestBucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: !Sub ${DomainName}
+      # AccessControl: PublicRead # visitors need to be able to access the sie
+      PublicAccessBlockConfiguration:
+        BlockPublicAcls: false
+        BlockPublicPolicy: false
+        IgnorePublicAcls: false
+        RestrictPublicBuckets: false
+      WebsiteConfiguration: # this makes the S3 Bucket a static website/app
+        IndexDocument: index.html # default object served when visiting S3 domain
+        ErrorDocument: index.html # just send to app, let React handle errors and routing
+      BucketEncryption:
+        ServerSideEncryptionConfiguration:
+          - ServerSideEncryptionByDefault:
+              SSEAlgorithm: 'AES256'
+    DeletionPolicy: Retain
+
+  # Add a Bucket Policy that lets public visitors access the web app
+  FletchTestBucketPolicy:
+    Type: AWS::S3::BucketPolicy
+    Properties:
+      Bucket: !Ref FletchTestBucket # attach to bucket being created
+      PolicyDocument:
+        Id: FletchTestBucketPolicy
+        Version: 2012-10-17
+        Statement: # lets the public access/view the contents of your Bucket, i.e. web app
+          - Sid: PublicReadForGetBucketObjects
+            Effect: Allow
+            Principal: '*' # wildcard, allow all requests
+            Action: 's3:GetObject'
+            Resource: !Join ['', ['arn:aws:s3:::', !Ref FletchTestBucket, /*]]
+
+  ##########################
+  # CloudFront
+  ##########################
+
+  FletchTestCloudFrontOriginAccessIdentity:
+    Type: AWS::CloudFront::CloudFrontOriginAccessIdentity
+    Properties:
+      CloudFrontOriginAccessIdentityConfig:
+        Comment: Origin Access Identity for Serverless Static with Basic Auth
+
+  FletchTestDistribution:
+    Type: AWS::CloudFront::Distribution
+    Properties:
+      DistributionConfig:
+        Aliases:
+          - !Sub ${DomainName}
+        DefaultCacheBehavior:
+          AllowedMethods:
+            - GET
+            - HEAD
+          ForwardedValues:
+            Cookies:
+              Forward: none
+            QueryString: false
+          TargetOriginId: s3Origin
+          ViewerProtocolPolicy: redirect-to-https
+        Enabled: true
+        DefaultRootObject: index.html
+        CustomErrorResponses: 
+          - ErrorCode: 404
+            ResponseCode: 200
+            ResponsePagePath: /index.html
+          - ErrorCode: 403
+            ResponseCode: 200
+            ResponsePagePath: /index.html
+        Origins:
+          - DomainName: !GetAtt FletchTestBucket.DomainName
+            Id: s3Origin
+            S3OriginConfig:
+              OriginAccessIdentity: !Sub origin-access-identity/cloudfront/${FletchTestCloudFrontOriginAccessIdentity}
+        ViewerCertificate:
+          AcmCertificateArn: !Ref FletchTestAcmCertificate
+          SslSupportMethod: sni-only
+
+  #############################
+  # NETWORKING
+  #############################
+
+  FletchTestHostedZone:
+    Type: AWS::Route53::HostedZone
+    Properties:
+      Name: !Ref DomainName
+
+  FletchTestRecordSet:
+    Type: AWS::Route53::RecordSet
+    Properties:
+      AliasTarget:
+        HostedZoneId: Z2FDTNDATAQYW2 # required
+        DNSName: !GetAtt FletchTestDistribution.DomainName
+      HostedZoneName: !Sub ${DomainName}.
+      Name: !Sub ${DomainName}
+      Type: A
+
+  FletchTestAcmCertificate:
+    Type: AWS::CertificateManager::Certificate
+    Properties:
+      DomainName: !Sub ${DomainName}
+      ValidationMethod: DNS
+
+Outputs:
+  BucketWebsiteURL:
+    Value: !GetAtt FletchTestBucket.WebsiteURL
+    Description: URL for website hosted on S3
+  
+  DistributionID:
+    Value: !GetAtt FletchTestDistribution.Id
+    Description: ID of Cloudfront Distribution
+  
+  DistributionURL:
+    Value: !GetAtt FletchTestDistribution.DomainName
+    Description: URL of Cloudfront Distribution

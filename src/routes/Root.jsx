@@ -10,7 +10,7 @@ function Root() {
     }, [filters])
 
     return (
-        <>{filters}</>
+        <p className="text-3xl font-bold">{filters}</p>
     );
 }
 

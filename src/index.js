@@ -3,6 +3,8 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 // App JSX
 import App from './App.jsx';
+// Tailwind
+import './tailwind.css'
 // Helpers
 import reportWebVitals from './helpers/reportWebVitals';
 

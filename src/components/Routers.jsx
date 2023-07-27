@@ -9,7 +9,7 @@ function Routers() {
         <Router>
             <Routes>
                 <Route
-                    path="/"
+                    path="/:filters"
                     element={<Root />}
                 />
             </Routes>

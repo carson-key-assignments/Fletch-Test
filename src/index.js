@@ -1,8 +1,10 @@
+// Packages
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
+// App JSX
+import App from './App.jsx';
+// Helpers
+import reportWebVitals from './helpers/reportWebVitals';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(

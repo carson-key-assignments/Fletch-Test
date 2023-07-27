@@ -1,0 +1,54 @@
+# Name of workflow as seen in Github actions tab
+name: production-deploy
+# Run workflow only on push to dev branch
+on:
+  push:
+    branches:
+      - production
+jobs:
+  # To build the project
+  build-fletch-test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checking out code
+        uses: actions/checkout@v3
+      - name: Installing Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: "16"
+      - name: Installing dependencies
+        run: npm install
+      - name: Building project
+        run: npm run build
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.ACCESS_KEY }}
+          aws-secret-access-key: ${{ secrets.SECRET_ACCESS_KEY }}
+          aws-region: us-west-2
+      - name: Deploy to AWS CloudFormation
+        uses: aws-actions/aws-cloudformation-github-deploy@v1
+        with:
+          name: FletchTest
+          template: template.yml
+          no-fail-on-empty-changeset: "1"
+          disable-rollback: "1"
+          parameter-overrides: "DomainName=fletch-test.carsonkey.dev"
+      - name: Deploy to S3 bucket
+        run: aws s3 sync ./build/ s3://fletch-test.carsonkey.dev --delete
+      - name: Get Cloudfront ID
+        id: cloudfront-id
+        run: >-
+          echo "ID=$(
+            sed -e 's/^"//' -e 's/"$//' <<<"$(aws cloudformation \
+            --region us-west-2 describe-stacks \
+            --stack-name FletchTest \
+            --query "Stacks[0].Outputs[2].OutputValue")"
+          )" >> $GITHUB_OUTPUT
+      - name: Invalidate Cloudfront
+        uses: chetan/invalidate-cloudfront-action@v2
+        env:
+          DISTRIBUTION: ${{ steps.cloudfront-id.outputs.ID }}
+          PATHS: "/*"
+          AWS_REGION: "us-west-2"
+          DEBUG: "1"

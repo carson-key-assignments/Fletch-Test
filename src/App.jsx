@@ -1,12 +1,12 @@
+// Packages
+import React from 'react';
+// Components
+import Routers from './components/Routers.jsx';
 // CSS
 import 'normalize.css';
 
 function App() {
-	return (
-		<div>
-			This is a React Site
-		</div>
-	);
+    return <Routers />;
 }
 
 export default App;

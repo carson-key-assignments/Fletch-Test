@@ -6,8 +6,7 @@ import MetaDataReducer from './reducers';
 import initialState from './initialState';
 
 const propTypes = {
-    children: PropTypes.oneOfType([PropTypes.string, PropTypes.element, PropTypes.arrayOf(PropTypes.element)])
-        .isRequired,
+    children: PropTypes.node.isRequired,
 };
 
 function Store({ children }) {

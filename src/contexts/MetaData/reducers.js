@@ -7,6 +7,8 @@ const MetaDataReducer = (state, action) => {
             return initialState;
         case 'SET_FILTERS':
             return { ...state, filters: action.payload };
+        case 'SET_IP_DATA':
+            return { ...state, ipData: action.payload };
         default:
             return state;
     }

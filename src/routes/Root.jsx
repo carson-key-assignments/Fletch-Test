@@ -1,14 +1,16 @@
 // Packages
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 // Helpers
 import ipData from '../helpers/ipData.js'
+import { decodeFilterHeader } from '../helpers/parseFilterHeader.js'
 
 function Root() {
     const { filters } = useParams();
+    const [parsedFilters, setParsedFilters] = useState([])
 
     useEffect(() => {
-        console.log(JSON.parse(filters))
+        setParsedFilters(JSON.parse(decodeFilterHeader(filters)))
     }, [filters])
 
     useEffect(() => {
@@ -16,7 +18,7 @@ function Root() {
     }, [])
 
     return (
-        <p className="text-3xl font-bold">{filters}</p>
+        <p className="text-3xl font-bold">{JSON.stringify(parsedFilters)}</p>
     );
 }
 

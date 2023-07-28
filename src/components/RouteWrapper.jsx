@@ -4,6 +4,7 @@ import { useParams } from 'react-router-dom';
 import PropTypes from 'prop-types';
 // Helpers
 import { decodeFilterHeader } from '../helpers/parseFilterHeader';
+import ipData from '../helpers/ipData';
 // Contexts
 import { MetaDataContext } from '../contexts/MetaData';
 
@@ -21,6 +22,13 @@ function RouteWrapper({ children }) {
             payload: JSON.parse(decodeFilterHeader(filters)),
         });
     }, [filters]);
+
+    useEffect(() => {
+        metaDataDispatch({
+            type: 'SET_IP_DATA',
+            payload: ipData,
+        });
+    }, [ipData]);
 
     return children;
 }

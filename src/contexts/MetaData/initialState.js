@@ -1,6 +1,6 @@
 const initialState = {
     filters: [],
-    ipData: []
+    ipData: [],
 };
 
 export default initialState;

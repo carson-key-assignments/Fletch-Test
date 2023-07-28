@@ -1,25 +1,12 @@
 // Packages
-import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
-// Helpers
-import ipData from '../helpers/ipData.js'
-import { decodeFilterHeader } from '../helpers/parseFilterHeader.js'
+import React, { useContext } from 'react';
+// Contexts
+import MetaDataStore from '../contexts/MetaData';
 
 function Root() {
-    const { filters } = useParams();
-    const [parsedFilters, setParsedFilters] = useState([])
+    const metaData = useContext(MetaDataStore)[0];
 
-    useEffect(() => {
-        setParsedFilters(JSON.parse(decodeFilterHeader(filters)))
-    }, [filters])
-
-    useEffect(() => {
-        console.log(ipData)
-    }, [])
-
-    return (
-        <p className="text-3xl font-bold">{JSON.stringify(parsedFilters)}</p>
-    );
+    return <p className="text-3xl font-bold">{JSON.stringify(metaData.filters)}</p>;
 }
 
 export default Root;

@@ -1,7 +1,3 @@
-export const encodeFilterHeader = (decodedFilter) => {
-    return btoa(decodedFilter)
-}
+export const encodeFilterHeader = (decodedFilter) => btoa(decodedFilter);
 
-export const decodeFilterHeader = (encodedFilter) => {
-    return atob(encodedFilter)
-}
+export const decodeFilterHeader = (encodedFilter) => atob(encodedFilter);

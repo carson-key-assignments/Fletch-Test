@@ -1,18 +1,19 @@
+/* eslint-disable react/jsx-filename-extension */
 // Packages
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 // App JSX
-import App from './App.jsx';
+import App from './App';
 // Tailwind
-import './tailwind.css'
+import './tailwind.css';
 // Helpers
 import reportWebVitals from './helpers/reportWebVitals';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>
+    <React.StrictMode>
+        <App />
+    </React.StrictMode>
 );
 
 // If you want to start measuring performance in your app, pass a function

@@ -8,10 +8,7 @@ function Routers() {
     return (
         <Router>
             <Routes>
-                <Route
-                    path="/:filters"
-                    element={<Root />}
-                />
+                <Route path="/:filters" element={<Root />} />
             </Routes>
         </Router>
     );

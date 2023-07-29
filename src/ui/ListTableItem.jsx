@@ -16,10 +16,13 @@ const defaultProps = {
 
 function ListTableItem({ items, liClassName, pClassName }) {
     return (
-        <li className={`w-full h-16 px-6 py-4 ${liClassName}`}>
+        <li className={`flex justify-center divide-x-2 w-full h-16 px-2 py-2 ${liClassName}`}>
             {items.map((item) => (
-                <p key={item} className={`w-fit h-fit mx-auto text-xl font-semibold text-stone-700 ${pClassName}`}>
-                    {item}
+                <p
+                    key={item}
+                    className={`flex flex-col justify-center w-1/${items.length} h-12 my-auto text-lg font-semibold text-stone-700 ${pClassName}`}
+                >
+                    <div className="w-fit mx-auto">{item}</div>
                 </p>
             ))}
         </li>

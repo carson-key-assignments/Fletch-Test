@@ -7,6 +7,7 @@ import DisplayIsLoadingBlocker from '../ui/DisplayLoadingBlocker';
 // Helpers
 import { decodeFilterHeader } from '../helpers/parseFilterHeader';
 import ipData from '../helpers/ipData';
+import { parseUniqueIpsAndTotalBytes } from '../helpers/parseIpData';
 // Contexts
 import { MetaDataContext } from '../contexts/MetaData';
 import { IsLoadingContext } from '../contexts/IsLoading';
@@ -40,6 +41,16 @@ function RouteWrapper({ children }) {
             payload: ipData,
         });
     }, [ipData]);
+    useEffect(() => {
+        isLoadingDispatch({
+            type: 'ADD_BLOCKER',
+            payload: 'setIpAddressesAndTotalBytesInMetaDataContext',
+        });
+        metaDataDispatch({
+            type: 'SET_IP_ADDRESSES_AND_TOTAL_BYTES',
+            payload: parseUniqueIpsAndTotalBytes(ipData),
+        });
+    }, [ipData]);
 
     useEffect(() => {
         if (metaData.finishedLoading.filters && isLoading.setFiltersInMetaDataContext) {
@@ -53,6 +64,16 @@ function RouteWrapper({ children }) {
             isLoadingDispatch({
                 type: 'REMOVE_BLOCKER',
                 payload: 'setIpDataInMetaDataContext',
+            });
+        }
+
+        if (
+            metaData.finishedLoading.ipAddressesAndTotalBytes &&
+            isLoading.setIpAddressesAndTotalBytesInMetaDataContext
+        ) {
+            isLoadingDispatch({
+                type: 'REMOVE_BLOCKER',
+                payload: 'setIpAddressesAndTotalBytesInMetaDataContext',
             });
         }
     }, [metaData.finishedLoading]);

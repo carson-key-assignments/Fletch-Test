@@ -34,24 +34,22 @@ function RouteWrapper({ children }) {
     useEffect(() => {
         isLoadingDispatch({
             type: 'ADD_BLOCKER',
-            payload: 'setIpDataInMetaDataContext',
-        });
-        metaDataDispatch({
-            type: 'SET_IP_DATA',
-            payload: ipData,
-        });
-    }, [ipData]);
-    useEffect(() => {
-        isLoadingDispatch({
-            type: 'ADD_BLOCKER',
             payload: 'setIpAddressesAndTotalBytesInMetaDataContext',
         });
+        isLoadingDispatch({
+            type: 'ADD_BLOCKER',
+            payload: 'setIpDataInMetaDataContext',
+        });
 
-        const { tempUniqueIpData } = parseIpData(ipData);
+        const { tempUniqueIpData, tempIpData } = parseIpData(ipData);
 
         metaDataDispatch({
             type: 'SET_IP_ADDRESSES_AND_TOTAL_BYTES',
             payload: tempUniqueIpData,
+        });
+        metaDataDispatch({
+            type: 'SET_IP_DATA',
+            payload: tempIpData,
         });
     }, [ipData]);
 

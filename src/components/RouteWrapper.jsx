@@ -17,8 +17,8 @@ const propTypes = {
 
 function RouteWrapper({ children }) {
     const { filters } = useParams();
-    const metaDataDispatch = useContext(MetaDataContext)[1];
-    const isLoadingDispatch = useContext(IsLoadingContext)[1];
+    const [metaData, metaDataDispatch] = useContext(MetaDataContext);
+    const [isLoading, isLoadingDispatch] = useContext(IsLoadingContext);
 
     useEffect(() => {
         isLoadingDispatch({
@@ -29,12 +29,7 @@ function RouteWrapper({ children }) {
             type: 'SET_FILTERS',
             payload: JSON.parse(decodeFilterHeader(filters)),
         });
-        isLoadingDispatch({
-            type: 'REMOVE_BLOCKER',
-            payload: 'setFiltersInMetaDataContext',
-        });
     }, [filters]);
-
     useEffect(() => {
         isLoadingDispatch({
             type: 'ADD_BLOCKER',
@@ -44,11 +39,23 @@ function RouteWrapper({ children }) {
             type: 'SET_IP_DATA',
             payload: ipData,
         });
-        isLoadingDispatch({
-            type: 'REMOVE_BLOCKER',
-            payload: 'setIpDataInMetaDataContext',
-        });
     }, [ipData]);
+
+    useEffect(() => {
+        if (metaData.finishedLoading.filters && isLoading.setFiltersInMetaDataContext) {
+            isLoadingDispatch({
+                type: 'REMOVE_BLOCKER',
+                payload: 'setFiltersInMetaDataContext',
+            });
+        }
+
+        if (metaData.finishedLoading.ipData && isLoading.setIpDataInMetaDataContext) {
+            isLoadingDispatch({
+                type: 'REMOVE_BLOCKER',
+                payload: 'setIpDataInMetaDataContext',
+            });
+        }
+    }, [metaData.finishedLoading]);
 
     return <DisplayIsLoadingBlocker>{children}</DisplayIsLoadingBlocker>;
 }

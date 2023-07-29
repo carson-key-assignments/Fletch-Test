@@ -5,6 +5,7 @@ import { MetaDataContext } from '../contexts/MetaData';
 // UI
 import Header from '../ui/Header';
 import ListTable from '../ui/ListTable';
+import ListTableHeader from '../ui/ListTableHeader';
 import ListTableItem from '../ui/ListTableItem';
 import Main from '../ui/Main';
 import Page from '../ui/Page';
@@ -16,11 +17,12 @@ function Root() {
         <Page>
             <Header>IP Addresses</Header>
             <Main>
+                <ListTableHeader items={['IP Address', 'Total Bytes']} />
                 <ListTable>
-                    {metaData.ipData.map((ipData) => (
+                    {Object.keys(metaData.ipAddressesAndTotalBytes).map((ip) => (
                         <ListTableItem
-                            key={`${ipData.result['All_Traffic.src']}-${ipData.result['All_Traffic.dest']}-${ipData.result.sum_bytes}`}
-                            items={[ipData.result['All_Traffic.src']]}
+                            key={`${ip}-${metaData.ipAddressesAndTotalBytes[ip]}`}
+                            items={[ip, `${metaData.ipAddressesAndTotalBytes[ip].toLocaleString()} Bytes`]}
                         />
                     ))}
                 </ListTable>

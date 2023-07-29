@@ -23,6 +23,15 @@ const MetaDataReducer = (state, action) => {
                 },
                 ipData: action.payload,
             };
+        case 'SET_IP_ADDRESSES_AND_TOTAL_BYTES':
+            return {
+                ...state,
+                finishedLoading: {
+                    ...state.finishedLoading,
+                    ipAddressesAndTotalBytes: true,
+                },
+                ipAddressesAndTotalBytes: action.payload,
+            };
         default:
             return state;
     }

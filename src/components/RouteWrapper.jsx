@@ -32,25 +32,43 @@ function RouteWrapper({ children }) {
         });
     }, [filters]);
     useEffect(() => {
-        isLoadingDispatch({
-            type: 'ADD_BLOCKER',
-            payload: 'setIpAddressesAndTotalBytesInMetaDataContext',
-        });
-        isLoadingDispatch({
-            type: 'ADD_BLOCKER',
-            payload: 'setIpDataInMetaDataContext',
-        });
+        const isIpDataEmpty = Object.keys(metaData.ipData).length === 0;
+        const isUniqueIpDataEmpty = Object.keys(metaData.ipAddressesAndTotalBytes).length === 0;
 
-        const { tempUniqueIpData, tempIpData } = parseIpData(ipData);
+        let { setUniqueIpDataTo, setIpDataTo } = {};
 
-        metaDataDispatch({
-            type: 'SET_IP_ADDRESSES_AND_TOTAL_BYTES',
-            payload: tempUniqueIpData,
-        });
-        metaDataDispatch({
-            type: 'SET_IP_DATA',
-            payload: tempIpData,
-        });
+        if (isIpDataEmpty) {
+            isLoadingDispatch({
+                type: 'ADD_BLOCKER',
+                payload: 'setIpDataInMetaDataContext',
+            });
+        }
+        if (isUniqueIpDataEmpty) {
+            isLoadingDispatch({
+                type: 'ADD_BLOCKER',
+                payload: 'setIpAddressesAndTotalBytesInMetaDataContext',
+            });
+        }
+
+        if (isUniqueIpDataEmpty || isIpDataEmpty) {
+            const { tempUniqueIpData, tempIpData } = parseIpData(ipData);
+
+            setUniqueIpDataTo = tempUniqueIpData;
+            setIpDataTo = tempIpData;
+        }
+
+        if (isIpDataEmpty) {
+            metaDataDispatch({
+                type: 'SET_IP_DATA',
+                payload: setIpDataTo,
+            });
+        }
+        if (isUniqueIpDataEmpty) {
+            metaDataDispatch({
+                type: 'SET_IP_ADDRESSES_AND_TOTAL_BYTES',
+                payload: setUniqueIpDataTo,
+            });
+        }
     }, [ipData]);
 
     useEffect(() => {

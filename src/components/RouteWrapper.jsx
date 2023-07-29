@@ -7,7 +7,7 @@ import DisplayIsLoadingBlocker from '../ui/DisplayLoadingBlocker';
 // Helpers
 import { decodeFilterHeader } from '../helpers/parseFilterHeader';
 import ipData from '../helpers/ipData';
-import { parseUniqueIpsAndTotalBytes } from '../helpers/parseIpData';
+import { parseIpData } from '../helpers/parseIpData';
 // Contexts
 import { MetaDataContext } from '../contexts/MetaData';
 import { IsLoadingContext } from '../contexts/IsLoading';
@@ -46,9 +46,12 @@ function RouteWrapper({ children }) {
             type: 'ADD_BLOCKER',
             payload: 'setIpAddressesAndTotalBytesInMetaDataContext',
         });
+
+        const { tempUniqueIpData } = parseIpData(ipData);
+
         metaDataDispatch({
             type: 'SET_IP_ADDRESSES_AND_TOTAL_BYTES',
-            payload: parseUniqueIpsAndTotalBytes(ipData),
+            payload: tempUniqueIpData,
         });
     }, [ipData]);
 

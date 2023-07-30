@@ -13,6 +13,7 @@ import ListTableHeader from '../ui/ListTableHeader';
 import ListTableItem from '../ui/ListTableItem';
 import Main from '../ui/Main';
 import Page from '../ui/Page';
+import Navigation from '../ui/Navigation';
 // Helpers
 import { formatBytes } from '../helpers/misc';
 import { encodeFilterHeader } from '../helpers/parseFilterHeader';
@@ -117,6 +118,7 @@ function PivotPoint() {
                     </ListTable>
                 </ConditionalRender>
             </Main>
+            <Navigation />
         </Page>
     );
 }

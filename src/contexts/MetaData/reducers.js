@@ -14,6 +14,16 @@ const MetaDataReducer = (state, action) => {
                 },
                 filters: action.payload,
             };
+        case 'REMOVE_FILTER': {
+            const tempFilters = [...state.filters];
+
+            tempFilters.pop();
+
+            return {
+                ...state,
+                filters: tempFilters,
+            };
+        }
         case 'ADD_SRC_FILTER':
             return {
                 ...state,

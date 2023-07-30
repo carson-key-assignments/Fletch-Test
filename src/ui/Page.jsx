@@ -13,7 +13,9 @@ const defaultProps = {
 };
 
 function Page({ children, className }) {
-    return <div className={`w-screen h-screen overflow-scroll scrollbar-hide ${className}`}>{children}</div>;
+    return (
+        <div className={`flex flex-col w-screen h-screen overflow-scroll scrollbar-hide ${className}`}>{children}</div>
+    );
 }
 
 Page.propTypes = propTypes;

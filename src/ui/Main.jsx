@@ -13,7 +13,11 @@ const defaultProps = {
 };
 
 function Main({ children, className }) {
-    return <main className={`w-screen h-fit overflow-scroll scrollbar-hide ${className}`}>{children}</main>;
+    return (
+        <main className={`flex flex-col flex-grow w-screen h-fit overflow-scroll scrollbar-hide ${className}`}>
+            {children}
+        </main>
+    );
 }
 
 Main.propTypes = propTypes;

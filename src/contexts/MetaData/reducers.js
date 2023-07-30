@@ -14,6 +14,16 @@ const MetaDataReducer = (state, action) => {
                 },
                 filters: action.payload,
             };
+        case 'ADD_SRC_FILTER':
+            return {
+                ...state,
+                filters: [...state.filters, `s-${action.payload}`],
+            };
+        case 'ADD_DEST_FILTER':
+            return {
+                ...state,
+                filters: [...state.filters, `d-${action.payload}`],
+            };
         case 'SET_IP_DATA':
             return {
                 ...state,

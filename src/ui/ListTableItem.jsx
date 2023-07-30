@@ -45,7 +45,7 @@ function ListTableItem({ items, liClassName, pClassName, innerDivClassName, butt
                     </div>
                 ))}
             </button>
-            <ConditionalRender condition={openContextMenu && contextMenuItems}>
+            <ConditionalRender condition={openContextMenu && contextMenuItems !== null}>
                 <ContextMenu items={contextMenuItems} />
             </ConditionalRender>
         </li>

@@ -29,7 +29,7 @@ function Root() {
                 payload: 'addFilter',
             });
 
-            navigate(`/${encodedFilters}`);
+            navigate(`/pivot/${encodedFilters}`);
         }
     }, [metaData.filters]);
 

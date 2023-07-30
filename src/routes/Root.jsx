@@ -1,7 +1,9 @@
 // Packages
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 // Contexts
 import { MetaDataContext } from '../contexts/MetaData';
+import { IsLoadingContext } from '../contexts/IsLoading';
 // UI
 import Header from '../ui/Header';
 import ListTable from '../ui/ListTable';
@@ -11,9 +13,25 @@ import Main from '../ui/Main';
 import Page from '../ui/Page';
 // Helpers
 import { formatBytes } from '../helpers/misc';
+import { encodeFilterHeader } from '../helpers/parseFilterHeader';
 
 function Root() {
-    const metaData = useContext(MetaDataContext)[0];
+    const [metaData, metaDataDispatch] = useContext(MetaDataContext);
+    const [isLoading, isLoadingDispatch] = useContext(IsLoadingContext);
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        if (isLoading.loadingBlockerOverlay.addFilter) {
+            const encodedFilters = encodeFilterHeader(JSON.stringify(metaData.filters));
+
+            isLoadingDispatch({
+                type: 'REMOVE_OVERLAY_BLOCKER',
+                payload: 'addFilter',
+            });
+
+            navigate(`/${encodedFilters}`);
+        }
+    }, [metaData.filters]);
 
     return (
         <Page>
@@ -25,6 +43,34 @@ function Root() {
                         <ListTableItem
                             key={`${ip}-${metaData.ipAddressesAndTotalBytes[ip]}`}
                             items={[ip, `${formatBytes(metaData.ipAddressesAndTotalBytes[ip]).toLocaleString()}`]}
+                            contextMenuItems={[
+                                {
+                                    onClick: () => {
+                                        isLoadingDispatch({
+                                            type: 'ADD_OVERLAY_BLOCKER',
+                                            payload: 'addFilter',
+                                        });
+                                        metaDataDispatch({
+                                            type: 'ADD_DEST_FILTER',
+                                            payload: ip,
+                                        });
+                                    },
+                                    jsx: 'Find Traffic To',
+                                },
+                                {
+                                    onClick: () => {
+                                        isLoadingDispatch({
+                                            type: 'ADD_OVERLAY_BLOCKER',
+                                            payload: 'addFilter',
+                                        });
+                                        metaDataDispatch({
+                                            type: 'ADD_SRC_FILTER',
+                                            payload: ip,
+                                        });
+                                    },
+                                    jsx: 'Find Traffic From',
+                                },
+                            ]}
                         />
                     ))}
                 </ListTable>

@@ -6,12 +6,32 @@ const MetaDataReducer = (state, action) => {
         case 'SET_INITIAL':
             return initialState;
         case 'ADD_BLOCKER':
-            return { ...state, [action.payload]: true };
+            return {
+                ...state,
+                loadingBlocker: {
+                    ...state.loadingBlocker,
+                    [action.payload]: true,
+                },
+            };
         case 'REMOVE_BLOCKER': {
             const tempState = { ...state };
-            delete tempState[action.payload];
+            delete tempState.loadingBlocker[action.payload];
 
-            return { ...tempState };
+            return tempState;
+        }
+        case 'ADD_OVERLAY_BLOCKER':
+            return {
+                ...state,
+                loadingBlockerOverlay: {
+                    ...state.loadingBlockerOverlay,
+                    [action.payload]: true,
+                },
+            };
+        case 'REMOVE_OVERLAY_BLOCKER': {
+            const tempState = { ...state };
+            delete tempState.loadingBlockerOverlay[action.payload];
+
+            return tempState;
         }
         default:
             return state;

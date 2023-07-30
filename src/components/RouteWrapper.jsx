@@ -4,6 +4,7 @@ import { useParams } from 'react-router-dom';
 import PropTypes from 'prop-types';
 // UI
 import DisplayIsLoadingBlocker from '../ui/DisplayLoadingBlocker';
+import DisplayLoadingBlockerOverlay from '../ui/DisplayLoadingBlockerOverlay';
 // Helpers
 import { decodeFilterHeader } from '../helpers/parseFilterHeader';
 import ipData from '../helpers/ipData';
@@ -72,14 +73,14 @@ function RouteWrapper({ children }) {
     }, [ipData]);
 
     useEffect(() => {
-        if (metaData.finishedLoading.filters && isLoading.setFiltersInMetaDataContext) {
+        if (metaData.finishedLoading.filters && isLoading.loadingBlocker.setFiltersInMetaDataContext) {
             isLoadingDispatch({
                 type: 'REMOVE_BLOCKER',
                 payload: 'setFiltersInMetaDataContext',
             });
         }
 
-        if (metaData.finishedLoading.ipData && isLoading.setIpDataInMetaDataContext) {
+        if (metaData.finishedLoading.ipData && isLoading.loadingBlocker.setIpDataInMetaDataContext) {
             isLoadingDispatch({
                 type: 'REMOVE_BLOCKER',
                 payload: 'setIpDataInMetaDataContext',
@@ -88,7 +89,7 @@ function RouteWrapper({ children }) {
 
         if (
             metaData.finishedLoading.ipAddressesAndTotalBytes &&
-            isLoading.setIpAddressesAndTotalBytesInMetaDataContext
+            isLoading.loadingBlocker.setIpAddressesAndTotalBytesInMetaDataContext
         ) {
             isLoadingDispatch({
                 type: 'REMOVE_BLOCKER',
@@ -97,7 +98,12 @@ function RouteWrapper({ children }) {
         }
     }, [metaData.finishedLoading]);
 
-    return <DisplayIsLoadingBlocker>{children}</DisplayIsLoadingBlocker>;
+    return (
+        <>
+            <DisplayLoadingBlockerOverlay />
+            <DisplayIsLoadingBlocker>{children}</DisplayIsLoadingBlocker>
+        </>
+    );
 }
 
 RouteWrapper.propTypes = propTypes;

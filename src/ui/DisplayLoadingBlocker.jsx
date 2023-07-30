@@ -18,7 +18,9 @@ function DisplayIsLoadingBlocker({ children }) {
     return (
         <ConditionalRender
             falseReturn={<LoadingBlocker />}
-            condition={!Object.keys(isLoading).some((element) => isLoading[element] === true)}
+            condition={
+                !Object.keys(isLoading.loadingBlocker).some((element) => isLoading.loadingBlocker[element] === true)
+            }
         >
             {children}
         </ConditionalRender>

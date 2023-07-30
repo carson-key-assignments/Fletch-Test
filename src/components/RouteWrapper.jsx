@@ -28,7 +28,7 @@ function RouteWrapper({ children }) {
         });
         metaDataDispatch({
             type: 'SET_FILTERS',
-            payload: JSON.parse(decodeFilterHeader(filters)),
+            payload: JSON.parse(filters ? decodeFilterHeader(filters) : '[]'),
         });
     }, [filters]);
     useEffect(() => {

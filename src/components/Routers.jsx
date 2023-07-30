@@ -10,6 +10,14 @@ function Routers() {
         <Router>
             <Routes>
                 <Route
+                    path="/"
+                    element={
+                        <RouteWrapper>
+                            <Root />
+                        </RouteWrapper>
+                    }
+                />
+                <Route
                     path="/:filters"
                     element={
                         <RouteWrapper>

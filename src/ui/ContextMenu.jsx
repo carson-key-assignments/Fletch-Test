@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import Button from './Button';
 
 const propTypes = {
-    items: PropTypes.arrayOf(PropTypes.objectOf([PropTypes.node, PropTypes.func])),
+    items: PropTypes.arrayOf(PropTypes.objectOf(PropTypes.oneOfType([PropTypes.node, PropTypes.func]))),
     outerDivClassName: PropTypes.string,
     buttonClassName: PropTypes.string,
 };

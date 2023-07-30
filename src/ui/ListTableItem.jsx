@@ -7,7 +7,7 @@ import ContextMenu from './ContextMenu';
 
 const propTypes = {
     items: PropTypes.arrayOf(PropTypes.node),
-    contextMenuItems: PropTypes.arrayOf(PropTypes.objectOf([PropTypes.node, PropTypes.func])),
+    contextMenuItems: PropTypes.arrayOf(PropTypes.objectOf(PropTypes.oneOfType([PropTypes.node, PropTypes.func]))),
     liClassName: PropTypes.string,
     pClassName: PropTypes.string,
     innerDivClassName: PropTypes.string,

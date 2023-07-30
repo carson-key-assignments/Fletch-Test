@@ -38,7 +38,7 @@ function Root() {
             <Header>IP Addresses</Header>
             <Main>
                 <ListTableHeader items={['IP Address', 'Total Bytes']} />
-                <ListTable>
+                <ListTable className="flex-grow overflow-scroll">
                     {Object.keys(metaData.ipAddressesAndTotalBytes).map((ip) => (
                         <ListTableItem
                             key={`${ip}-${metaData.ipAddressesAndTotalBytes[ip]}`}

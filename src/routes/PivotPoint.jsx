@@ -73,7 +73,7 @@ function PivotPoint() {
                     }
                 >
                     <ListTableHeader items={['IP Address', 'Bytes Transfered']} />
-                    <ListTable>
+                    <ListTable className="flex-grow overflow-scroll">
                         {listTabletArray.map((ip) => (
                             <ListTableItem
                                 key={ip}
@@ -117,8 +117,8 @@ function PivotPoint() {
                         ))}
                     </ListTable>
                 </ConditionalRender>
+                <Navigation />
             </Main>
-            <Navigation />
         </Page>
     );
 }

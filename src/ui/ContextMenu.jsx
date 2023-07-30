@@ -19,7 +19,7 @@ function ContextMenu({ outerDivClassName, items, buttonClassName }) {
     return (
         <div className={`flex justify-center gap-2 mt-2 ${outerDivClassName}`}>
             {items.map((item) => (
-                <Button className={`w-1/${items.length} ${buttonClassName}`} onClick={item.onClick}>
+                <Button key={item.jsx} className={`w-1/${items.length} ${buttonClassName}`} onClick={item.onClick}>
                     {item.jsx}
                 </Button>
             ))}

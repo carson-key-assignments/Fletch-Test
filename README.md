@@ -1,70 +1,23 @@
-# Getting Started with Create React App
+# Getting Started with Fletch Test
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This repo contains a pivot table that can be used to look at the byte transfer traffic of different IP address from a Splunk exported file. This app was built using create-react-app and uses AWS and Github Actions for deployment and CI/CD.
 
-## Available Scripts
+## Spin Up Locally
 
-In the project directory, you can run:
+1. Pull down or clone this repo
+2. Run `npm i` to install all dependencies
+3. Run `npm start` to launch up the web server
+4. Go to `localhost:3000` in your web browser of choice
+5. You are now ready to use the site!!
 
-### `npm start`
+## Deploy
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
-
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
-
-### `npm test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+1. In `./.github/workflows/development.yml`, `./.github/workflows/production.yml` and `./template.yml` change all occurrences of `fletch-test.carsonkey.dev` and `dev-fletch-test.carsonkey.dev` to match your new domain/subdomain
+2. Push code to either production or development branch (depending on what environment you are working in)
+3. Github Actions will start the deployment process!
+   1. If this is the first deployment complete the Amazon Certificate Manager validation process
+      1. Once Cloudformation starts the ACM creation process go to ACM in AWS
+      2. Go to the new pending ACM
+      3. copy the CNAME name and CNAME value and make a new DNS record in your domain providers portal
+      4. Tutorials for popular domain providers: [GoDaddy](https://www.godaddy.com/help/add-a-cname-record-19236) and [Google Domains](https://support.google.com/a/answer/47283?hl=en)
+4. Once Cloudformation is done the site is live!!

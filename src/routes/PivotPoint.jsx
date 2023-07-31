@@ -24,6 +24,7 @@ function PivotPoint() {
     const [currentFilterType, setCurrentFilterType] = useState(null);
     const [currentFilterIp, setCurrentFilterIp] = useState(null);
     const [listTabletArray, setListTabletArray] = useState([]);
+    const [closeOtherMenus, setCloseOtherMenus] = useState(0);
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -76,6 +77,10 @@ function PivotPoint() {
                     <ListTable className="flex-grow overflow-scroll">
                         {listTabletArray.map((ip) => (
                             <ListTableItem
+                                closeOtherMenus={closeOtherMenus}
+                                setCloseOtherMenus={() => {
+                                    setCloseOtherMenus((prev) => prev + 1);
+                                }}
                                 key={ip}
                                 items={[
                                     ip,

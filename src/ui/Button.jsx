@@ -17,7 +17,7 @@ const defaultProps = {
 function Button({ children, className, onClick }) {
     return (
         <button
-            className={`w-fit text-white bg-blue-600 rounded-3xl py-2 px-2 ${className}`}
+            className={`w-fit text-white bg-blue-600 hover:bg-blue-800 rounded-3xl py-2 px-2 ${className}`}
             type="button"
             onClick={() => {
                 onClick();

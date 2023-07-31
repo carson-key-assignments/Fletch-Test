@@ -47,7 +47,7 @@ function ListTableItem({
     }, [closeOtherMenus]);
 
     return (
-        <li className={`w-full h-mi2-16 px-2 py-2 ${liClassName}`}>
+        <li className={`w-full h-mi2-16 px-2 py-2 hover:bg-zinc-100 ${liClassName}`}>
             <button
                 disabled={!contextMenuItems}
                 type="button"

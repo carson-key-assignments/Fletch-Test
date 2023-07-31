@@ -48,7 +48,7 @@ function Navigation({ className }) {
 
     return (
         <button
-            className={`flex justify-center w-screen gap-2 bg-black text-white h-fit py-2 ${className}`}
+            className={`flex justify-center w-screen gap-2 bg-black text-white hover:bg-blue-800 h-fit py-2 ${className}`}
             type="button"
             onClick={() => {
                 isLoadingDispatch({

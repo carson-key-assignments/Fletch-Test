@@ -23,7 +23,7 @@ function ListTableHeader({ items, h2ClassName, outerDivClassName, innerDivClassN
             {items.map((item) => (
                 <div
                     key={item}
-                    className={`flex flex-col justify-center w-1/${items.length} h-fit my-auto text-md font-semibold text-white ${h2ClassName}`}
+                    className={`flex flex-col justify-center w-1/2 h-fit my-auto text-md font-semibold text-white ${h2ClassName}`}
                 >
                     <div className={`w-fit mx-auto ${innerDivClassName}`}>{item}</div>
                 </div>

@@ -33,9 +33,9 @@ jobs:
           template: template.yml
           no-fail-on-empty-changeset: "1"
           disable-rollback: "1"
-          parameter-overrides: "DomainName=dev-fletch-test.carsonkey.dev"
+          parameter-overrides: "DomainName=fletch-test-dev.carsonkey.dev"
       - name: Deploy to S3 bucket
-        run: aws s3 sync ./build/ s3://dev-fletch-test.carsonkey.dev --delete
+        run: aws s3 sync ./build/ s3://fletch-test-dev.carsonkey.dev --delete
       - name: Get Cloudfront ID
         id: cloudfront-id
         run: >-

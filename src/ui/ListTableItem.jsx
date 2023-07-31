@@ -1,5 +1,5 @@
 // Packages
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 // UI
 import ConditionalRender from '../components/ConditionalRender';
@@ -12,6 +12,8 @@ const propTypes = {
     pClassName: PropTypes.string,
     innerDivClassName: PropTypes.string,
     buttonClassName: PropTypes.string,
+    closeOtherMenus: PropTypes.number,
+    setCloseOtherMenus: PropTypes.func,
 };
 const defaultProps = {
     // eslint-disable-next-line react/jsx-no-useless-fragment
@@ -21,10 +23,28 @@ const defaultProps = {
     pClassName: '',
     innerDivClassName: '',
     buttonClassName: '',
+    closeOtherMenus: 0,
+    setCloseOtherMenus: () => {},
 };
 
-function ListTableItem({ items, liClassName, pClassName, innerDivClassName, buttonClassName, contextMenuItems }) {
+function ListTableItem({
+    items,
+    liClassName,
+    pClassName,
+    innerDivClassName,
+    buttonClassName,
+    contextMenuItems,
+    closeOtherMenus,
+    setCloseOtherMenus,
+}) {
     const [openContextMenu, setOpenContextMenu] = useState(false);
+    const [keepContextMenuOpenAt, setKeepContextMenuOpenAt] = useState(0);
+
+    useEffect(() => {
+        if (closeOtherMenus !== keepContextMenuOpenAt) {
+            setOpenContextMenu(false);
+        }
+    }, [closeOtherMenus]);
 
     return (
         <li className={`w-full h-mi2-16 px-2 py-2 ${liClassName}`}>
@@ -32,6 +52,8 @@ function ListTableItem({ items, liClassName, pClassName, innerDivClassName, butt
                 disabled={!contextMenuItems}
                 type="button"
                 onClick={() => {
+                    setKeepContextMenuOpenAt(closeOtherMenus + 1);
+                    setCloseOtherMenus();
                     setOpenContextMenu((prev) => !prev);
                 }}
                 className={`flex w-full h-full justify-center divide-x-2 ${buttonClassName}`}

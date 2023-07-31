@@ -2,6 +2,7 @@
 import React, { useContext, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useNavigate } from 'react-router-dom';
+import { FaChevronLeft } from 'react-icons/fa';
 // Contexts
 import { MetaDataContext } from '../contexts/MetaData';
 import { IsLoadingContext } from '../contexts/IsLoading';
@@ -47,7 +48,7 @@ function Navigation({ className }) {
 
     return (
         <button
-            className={`w-screen bg-black text-white h-fit py-2 ${className}`}
+            className={`flex justify-center w-screen gap-2 bg-black text-white h-fit py-2 ${className}`}
             type="button"
             onClick={() => {
                 isLoadingDispatch({
@@ -68,7 +69,7 @@ function Navigation({ className }) {
                 }
             }}
         >
-            {`<<< ${navigationText}`}
+            <FaChevronLeft className="my-auto text-xl " /> {navigationText}
         </button>
     );
 }

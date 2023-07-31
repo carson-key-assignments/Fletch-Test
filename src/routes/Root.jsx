@@ -1,5 +1,5 @@
 // Packages
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 // Contexts
 import { MetaDataContext } from '../contexts/MetaData';
@@ -16,6 +16,7 @@ import { formatBytes } from '../helpers/misc';
 import { encodeFilterHeader } from '../helpers/parseFilterHeader';
 
 function Root() {
+    const [closeOtherMenus, setCloseOtherMenus] = useState(0);
     const [metaData, metaDataDispatch] = useContext(MetaDataContext);
     const [isLoading, isLoadingDispatch] = useContext(IsLoadingContext);
     const navigate = useNavigate();
@@ -41,6 +42,10 @@ function Root() {
                 <ListTable className="flex-grow overflow-scroll">
                     {Object.keys(metaData.ipAddressesAndTotalBytes).map((ip) => (
                         <ListTableItem
+                            closeOtherMenus={closeOtherMenus}
+                            setCloseOtherMenus={() => {
+                                setCloseOtherMenus((prev) => prev + 1);
+                            }}
                             key={`${ip}-${metaData.ipAddressesAndTotalBytes[ip]}`}
                             items={[ip, `${formatBytes(metaData.ipAddressesAndTotalBytes[ip]).toLocaleString()}`]}
                             contextMenuItems={[

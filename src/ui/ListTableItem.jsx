@@ -39,7 +39,7 @@ function ListTableItem({ items, liClassName, pClassName, innerDivClassName, butt
                 {items.map((item) => (
                     <div
                         key={item}
-                        className={`flex flex-col justify-center w-1/${items.length} h-12 my-auto text-lg font-semibold text-stone-700 ${pClassName}`}
+                        className={`flex flex-col justify-center w-1/2 h-12 my-auto text-lg font-semibold text-stone-700 ${pClassName}`}
                     >
                         <p className={`w-fit mx-auto ${innerDivClassName}`}>{item}</p>
                     </div>

@@ -25,7 +25,7 @@ jobs:
         with:
           aws-access-key-id: ${{ secrets.ACCESS_KEY }}
           aws-secret-access-key: ${{ secrets.SECRET_ACCESS_KEY }}
-          aws-region: us-west-2
+          aws-region: us-east-1
       - name: Deploy to AWS CloudFormation
         uses: aws-actions/aws-cloudformation-github-deploy@v1
         with:
@@ -41,7 +41,7 @@ jobs:
         run: >-
           echo "ID=$(
             sed -e 's/^"//' -e 's/"$//' <<<"$(aws cloudformation \
-            --region us-west-2 describe-stacks \
+            --region us-east-1 describe-stacks \
             --stack-name DevFletchTest \
             --query "Stacks[0].Outputs[2].OutputValue")"
           )" >> $GITHUB_OUTPUT
@@ -50,5 +50,5 @@ jobs:
         env:
           DISTRIBUTION: ${{ steps.cloudfront-id.outputs.ID }}
           PATHS: "/*"
-          AWS_REGION: "us-west-2"
+          AWS_REGION: "us-east-1"
           DEBUG: "1"
